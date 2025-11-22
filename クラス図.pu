@@ -1,0 +1,80 @@
+@startuml
+' テーマ設定
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+' インターフェース定義
+interface "Layer (Interface)" as Layer {
+
+- Encapsulate(data: string): string
+- Decapsulate(data: string): string
+- Name(): string
+  }
+  ' データ構造
+  class Packet {
+- Headers: []string
+- Payload: string
+  }
+  ' 各層の構造体定義 (Privateフィールドは - で表現)
+  class ApplicationLayer {
+
+* messageBody: string
+* sender: string
+* recipient: string
+
+- NewApplicationLayer(...)
+  }
+  class PresentationLayer {
+
+* encoding: string
+
+- NewPresentationLayer(...)
+  }
+  class SessionLayer {
+
+* sessionID: string
+
+- NewSessionLayer(...)
+  }
+  class TransportLayer {
+
+* srcPort: int
+* dstPort: int
+
+- NewTransportLayer(...)
+  }
+  class NetworkLayer {
+
+* srcIP: string
+* dstIP: string
+
+- NewNetworkLayer(...)
+  }
+  class DataLinkLayer {
+
+* srcMAC: string
+* dstMAC: string
+
+- NewDataLinkLayer(...)
+  }
+  class PhysicalLayer {
+
+* voltageHigh: float64
+* voltageLow: float64
+
+- NewPhysicalLayer(...)
+  }
+  ' 関係性の定義 (Realization: 実装)
+  Layer <|.. ApplicationLayer
+  Layer <|.. PresentationLayer
+  Layer <|.. SessionLayer
+  Layer <|.. TransportLayer
+  Layer <|.. NetworkLayer
+  Layer <|.. DataLinkLayer
+  Layer <|.. PhysicalLayer
+  ' メイン関数との関係
+  class Main {
+- main()
+  }
+  Main ..> Layer : uses (Slice of Layers)
+  Main ..> Packet : uses
+  @enduml

@@ -1,0 +1,52 @@
+@startuml
+skinparam monochrome true
+autonumber
+actor User
+participant "Main Process" as Main
+participant "L7: App" as App
+participant "L6: Pres" as Pres
+participant "L5: Sess" as Sess
+participant "L4: Trans" as Trans
+participant "L3: Net" as Net
+participant "L2: Link" as Link
+participant "L1: Phys" as Phys
+User -> Main: プログラム実行 (Hello Network)
+group 送信フェーズ (Encapsulation Loop)
+Main -> App: Encapsulate(data)
+App --> Main: [Header] + data
+
+
+Main -> Pres: Encapsulate(data)
+Pres --> Main: [Header] + data
+Main -> Sess: Encapsulate(data)
+Sess --> Main: [Header] + data
+Main -> Trans: Encapsulate(data)
+Trans --> Main: [Header] + data
+Main -> Net: Encapsulate(data)
+Net --> Main: [Header] + data
+Main -> Link: Encapsulate(data)
+Link --> Main: [Header] + data
+Main -> Phys: Encapsulate(data)
+Phys --> Main: **Bit Signal / Voltage Log**
+end
+note over Main: --- 物理的な通信 (Simulation) ---
+group 受信フェーズ (Decapsulation Loop)
+Main -> Phys: Decapsulate(signal)
+Phys --> Main: Logical Data
+
+
+Main -> Link: Decapsulate(data)
+Link --> Main: Payload (Header Removed)
+Main -> Net: Decapsulate(data)
+Net --> Main: Payload (Header Removed)
+Main -> Trans: Decapsulate(data)
+Trans --> Main: Payload (Header Removed)
+Main -> Sess: Decapsulate(data)
+Sess --> Main: Payload (Header Removed)
+Main -> Pres: Decapsulate(data)
+Pres --> Main: Payload (Header Removed)
+Main -> App: Decapsulate(data)
+App --> Main: **Original Message: "Hello Network"**
+end
+Main -> User: 結果表示
+@enduml
