@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/nakagukihisashi/network_simulator/layers"
+	"github.com/nakagukihisashi/network_simulator/src/layers"
 )
 
 func main() {
