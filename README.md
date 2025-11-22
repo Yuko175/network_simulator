@@ -6,8 +6,8 @@
 実行方法:
 
 ```bash
-# ビルドして実行
-clear && go build -o simulator main.go && ./simulator
+# リポジトリ直下で以下のコマンドを実行
+clear && go build -o simulator src/main/main.go && ./simulator
 ```
 
 構成:
